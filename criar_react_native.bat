@@ -3,10 +3,20 @@ setlocal
 
 title Criador de Projeto React Native
 
+set "BASE_DIR=C:\Users\025747\Desktop"
+
 echo ==========================================
 echo       CRIADOR DE PROJETO REACT NATIVE
 echo ==========================================
 echo.
+echo Local base: %BASE_DIR%
+echo.
+
+if not exist "%BASE_DIR%" (
+    echo ERRO: A pasta %BASE_DIR% nao existe.
+    pause
+    exit /b 1
+)
 
 set /p PROJECT_NAME=Digite o nome do projeto: 
 
@@ -18,8 +28,11 @@ if "%PROJECT_NAME%"=="" (
 )
 
 echo.
-echo Criando o projeto "%PROJECT_NAME%"...
+echo Criando o projeto em:
+echo %BASE_DIR%\%PROJECT_NAME%
 echo.
+
+cd /d "%BASE_DIR%"
 
 npx @react-native-community/cli@latest init "%PROJECT_NAME%"
 
@@ -32,15 +45,14 @@ if errorlevel 1 (
     exit /b 1
 )
 
+cd /d "%BASE_DIR%\%PROJECT_NAME%"
+
 echo.
 echo ==========================================
-echo Projeto criado com sucesso!
-echo ==========================================
-echo.
-
-cd /d "%PROJECT_NAME%"
-
 echo Instalando dependencias...
+echo ==========================================
+echo.
+
 call npm install
 
 if errorlevel 1 (
@@ -52,16 +64,17 @@ if errorlevel 1 (
 
 echo.
 echo ==========================================
-echo Projeto pronto!
+echo PROJETO CRIADO COM SUCESSO!
 echo ==========================================
 echo.
-echo Pasta: %CD%
-echo.
-echo Para executar no Android:
-echo     npx react-native run-android
+echo Local:
+echo %BASE_DIR%\%PROJECT_NAME%
 echo.
 echo Para iniciar o Metro:
-echo     npm start
+echo npm start
+echo.
+echo Para executar no Android:
+echo npx react-native run-android
 echo.
 
 pause
